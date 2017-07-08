@@ -9,8 +9,8 @@ ENV SIA_RELEASE https://github.com/NebulousLabs/Sia/releases/download/v$SIA_VERS
 ENV SIA_DIR /opt/$SIA_PACKAGE
 
 RUN set -ex \
-  && apt-get update \
-  && apt-get install -qq --no-install-recommends socat wget unzip \
+  && apt-get update -qq \
+  && apt-get install -qq --no-install-recommends ca-certificates socat wget unzip \
   && rm -rf /var/lib/apt/lists/*
 
 # Download and install Sia.
