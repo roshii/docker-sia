@@ -10,7 +10,7 @@ ENV SIA_DIR /opt/$SIA_PACKAGE
 
 RUN set -ex \
   && apt-get update -qq \
-  && apt-get install -qq --no-install-recommends ca-certificates socat wget unzip \
+  && apt-get install -qq --no-install-recommends ca-certificates wget unzip \
   && rm -rf /var/lib/apt/lists/*
 
 # Download and install Sia.
@@ -19,11 +19,11 @@ RUN set -ex \
   && unzip $SIA_ZIP -d /opt
 
 # Make the Sia ports available to the Docker container's host.
-EXPOSE 8000 9981 9982
+EXPOSE 9980 9981 9982
 
 # Configure the Sia daemon to run when the container starts.
 # Forward 8000 to localhost:9980 so it's accessible outside the container.
 # Specify the Sia directory as /mnt/sia so that you can view these files outside
 # of Docker.
 WORKDIR $SIA_DIR
-ENTRYPOINT socat tcp-listen:8000,reuseaddr,fork tcp:localhost:9980 & ./siad --modules gctwhr --sia-directory /mnt/sia
+ENTRYPOINT ./siad --modules gctwhr --sia-directory /mnt/sia
